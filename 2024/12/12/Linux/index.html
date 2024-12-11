@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+        <meta name="keywords" content="hexo,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="写在开头 一些零散的Linux知识备忘，绝对不是想随便塞一些垃圾到博客里 Unix Command options  toggle: on&#x2F;off options: need information  ls  -a: show all files -o&#x2F;-l: long&#x2F;longer listing -d: directory -f: decorate names -ot: sorts by mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux备忘">
+<meta property="og:url" content="http://example.com/2024/12/12/Linux/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="写在开头 一些零散的Linux知识备忘，绝对不是想随便塞一些垃圾到博客里 Unix Command options  toggle: on&#x2F;off options: need information  ls  -a: show all files -o&#x2F;-l: long&#x2F;longer listing -d: directory -f: decorate names -ot: sorts by mo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-12-12T04:28:03.000Z">
+<meta property="article:modified_time" content="2024-12-11T20:59:12.275Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/title.ico">
+    
+    <title>Linux备忘 · Minthub</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Minthub.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Minthub.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">Linux备忘</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                Linux备忘
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        
+        
+            
+        
+            
+        
+        
+        <span class="post-category" data-categories="learning notes/linux"">
+            <i class="fas fa-folder post-category-icon"></i>
+            <span class="post-category-text">
+                learning notes/linux
+            </span>
+        </span>
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="note">note</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">3.2k</span>Reading time: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/12/12</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="写在开头">写在开头</h2>
+<p>一些零散的Linux知识备忘，绝对不是想随便塞一些垃圾到博客里</p>
+<h2 id="unix">Unix</h2>
+<h3 id="command">Command</h3>
+<h4 id="options">options</h4>
+<ul>
+<li>toggle: on/off</li>
+<li>options: need information</li>
+</ul>
+<h4 id="ls">ls</h4>
+<ul>
+<li>-a: show all files</li>
+<li>-o/-l: long/longer listing</li>
+<li>-d: directory</li>
+<li>-f: decorate names</li>
+<li>-ot: sorts by modification time</li>
+</ul>
+<h4 id="man">man</h4>
+<h4 id="info">info</h4>
+<h4 id="cat">cat</h4>
+<h4 id="less-more">less more</h4>
+<p>read files, h for help, q to quit</p>
+<h4 id="od">od</h4>
+<p>viewing raw data in octal, hex, control chats. Looking for non-printing characters in codes.</p>
+<h4 id="cpmv">cp/mv</h4>
+<p>-i to ask before overwrite</p>
+<p>cp -r to remove directory</p>
+<h4 id="tar">tar</h4>
+<ul>
+<li>-c: 产生新的包</li>
+<li>-f: 指定名字</li>
+<li>-r: 增加文件</li>
+<li>-u: 更新文件</li>
+<li>-t: 列出文件</li>
+<li>-x: 解开文件</li>
+<li>gzip
+<ul>
+<li>-czf: 压缩</li>
+<li>-xzf: 解压</li>
+</ul></li>
+</ul>
+<h4 id="filters">filters</h4>
+<ul>
+<li>head/tail: show first/last n lines/chars(-n/-c) of files</li>
+<li>grep: searching using regular expressions grep <a href="#options">options</a> pattern [files]
+<ul>
+<li>-i：忽略大小写进行匹配</li>
+<li>-v：反向查找，只打印不匹配的行</li>
+<li>-n：显示匹配行的行号</li>
+<li>-r：递归查找子目录中的文件</li>
+<li>-l：只打印匹配的文件名</li>
+<li>-c：只打印匹配的行数</li>
+</ul></li>
+<li>sort: sort input lines by lexically or ornumerically
+<ul>
+<li>-n: 按照数值排序</li>
+<li>-r: 倒序</li>
+<li>-o<file>: 将结果存储</li>
+<li>-k n: 按照第n列的值重排</li>
+</ul></li>
+<li>uniq: remove identical, adjacent lines(using with sort)
+<ul>
+<li>-c或--count 在每列旁边显示该行重复出现的次数</li>
+<li>-d或--repeated 仅显示重复出现的行列</li>
+<li>-u或--unique 仅显示出一次的行列</li>
+</ul></li>
+<li>wc: Word count (line count,character count), (line, word, char)
+<ul>
+<li>-c或--bytes或--chars 只显示Bytes数</li>
+<li>-l或--lines 只显示行数</li>
+<li>-w或--words 只显示字数</li>
+</ul></li>
+<li>cut: Select fields of a line [https://www.cnblogs.com/Spiro-K/p/6361646.html]</li>
+<li>tr: translate tr [OPTION]…SET1[SET2]
+<ul>
+<li>-c, --complement：反选设定字符。也就是符合 SET1 的部份不做处理，不符合的剩余部份才进行转换</li>
+<li>-d, --delete：删除指令字符</li>
+<li>-s, --squeeze-repeats：缩减连续重复的字符成指定的单个字符</li>
+<li>-t, --truncate-set1：削减 SET1 指定范围，使之与 SET2 设定长度相等</li>
+</ul></li>
+</ul>
+<h5 id="du--sh">du -sh</h5>
+<p>Disk usage summary, human readable</p>
+<h4 id="permissions">permissions</h4>
+<ul>
+<li>permissions
+<ul>
+<li>r - read</li>
+<li>w - write</li>
+<li>x - execute</li>
+</ul></li>
+<li>entities
+<ul>
+<li>user</li>
+<li>group</li>
+<li>other</li>
+</ul></li>
+<li>chmod
+<ul>
+<li><p>rwxrwxrwx</p></li>
+<li><p>r - 4</p></li>
+<li><p>w - 2</p></li>
+<li><p>x - 1</p></li>
+<li><p>[u/g/o/a] [+-=] [rwx]</p></li>
+</ul></li>
+</ul>
+<h4 id="basic-vim">Basic Vim</h4>
+<ul>
+<li>k: up</li>
+<li>j: down</li>
+<li>h: left</li>
+<li>l: right</li>
+<li>b: left a word</li>
+<li>w: right a word</li>
+<li>0: beginning of line</li>
+<li>$: end of line</li>
+<li>db: delete word back</li>
+<li>dw: delete word forward</li>
+<li>d$: kill to end of line</li>
+<li>/: search</li>
+</ul>
+<h3 id="shell">Shell</h3>
+<h4 id="io">IO</h4>
+<ul>
+<li>stdin: fd 0</li>
+<li>stdout: fd 1</li>
+<li>stderr: fd 2</li>
+</ul>
+<h4 id="variables">Variables</h4>
+<ul>
+<li>USER: list of directories searched by shell for disk utilities</li>
+<li>SHELL: The login shell</li>
+<li>$$: the PID of current shell</li>
+<li>$?: the return value of the last command</li>
+<li>$# The number of arguments</li>
+<li>$* All arguments</li>
+<li>$@ All arguments(individually quoted)</li>
+<li>${n} The nth positional argument</li>
+<li>TERM: Terminal type</li>
+</ul>
+<p>$( cmd ) / 'cmd'</p>
+<p> to inhibit metacharacter, connect lines too<br />
+to start new line<br />
+" will inhibit all but  ' $<br />
+' will inhibit all, can't contain '</p>
+<p>echo -e allow expansion of escape chars</p>
+<h4 id="process-jobs">Process &amp; Jobs</h4>
+<ul>
+<li>process: ps -f(full) -e(all) / kill <PID></li>
+<li>jobs:
+<ul>
+<li>&amp; after a command make it run in the background</li>
+<li>^Z to suspend the process in the foreground</li>
+<li>fg bring the most recent process back to the foreground</li>
+<li>bg to put the most recently suspended process into the background</li>
+</ul></li>
+</ul>
+<h4 id="command-sequence">Command Sequence</h4>
+<ul>
+<li>cmd1; cmd2; cmd3</li>
+<li>grounped commands: {cmd1; cmd2; cmd3} &gt; out</li>
+<li>grounped commands in subshell: cmd1; (cmd2; cmd3); cmd4</li>
+</ul>
+<h4 id="conditional-operators">Conditional Operators</h4>
+<ul>
+<li>cmd1 &amp;&amp; cmd2: cmd1 execute first, if cmd1 succeeds, cmd2 execute</li>
+<li>cmd1 || cmd2: cmd1 execute first, only if cmd1 fails cmd2 execute</li>
+</ul>
+<h2 id="vim">Vim</h2>
+<h3 id="vim-的三种模式"><strong>Vim 的三种模式</strong></h3>
+<ol type="1">
+<li><strong>普通模式 (Normal Mode)</strong>：
+<ul>
+<li>默认进入 Vim 的模式，用于导航和执行命令。</li>
+<li>通过按 <code>ESC</code> 返回普通模式。</li>
+</ul></li>
+<li><strong>插入模式 (Insert Mode)</strong>：
+<ul>
+<li>用于输入和编辑文本。</li>
+<li>在普通模式下按 <code>i</code>（插入光标左侧）或 <code>a</code>（插入光标右侧）进入插入模式。</li>
+</ul></li>
+<li><strong>命令模式 (Command Mode)</strong>：
+<ul>
+<li>用于保存、退出或执行其他全局操作。</li>
+<li>在普通模式下按 <code>:</code>进入命令模式。</li>
+</ul></li>
+</ol>
+<hr />
+<h3 id="基本操作"><strong>基本操作</strong></h3>
+<h4 id="启动和退出"><strong>启动和退出</strong></h4>
+<ul>
+<li><strong>启动</strong>：在终端输入 <code>vim 文件名</code> 打开文件（若文件不存在，将创建一个新文件）。</li>
+<li><strong>退出</strong>：
+<ul>
+<li><code>:w</code> 保存文件。</li>
+<li><code>:q</code> 退出 Vim。</li>
+<li><code>:wq</code> 保存并退出。</li>
+<li><code>:q!</code> 强制退出（不保存）。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="导航"><strong>导航</strong></h3>
+<ul>
+<li><strong>字符/行导航</strong>：
+<ul>
+<li><code>h</code> 左移一个字符。</li>
+<li><code>l</code> 右移一个字符。</li>
+<li><code>j</code> 下移一行。</li>
+<li><code>k</code> 上移一行。</li>
+</ul></li>
+<li><strong>单词导航</strong>：
+<ul>
+<li><code>w</code> 跳到下一个单词的开头。</li>
+<li><code>e</code> 跳到当前/下一个单词的结尾。</li>
+<li><code>b</code> 跳到当前/前一个单词的开头。</li>
+</ul></li>
+<li><strong>行内导航</strong>：
+<ul>
+<li><code>0</code> 移动到行首。</li>
+<li><code>^</code> 移动到行首非空白字符。</li>
+<li><code>$</code> 移动到行尾。</li>
+</ul></li>
+<li><strong>页面导航</strong>：
+<ul>
+<li><code>Ctrl-d</code> 向下滚动半页。</li>
+<li><code>Ctrl-u</code> 向上滚动半页。</li>
+<li><code>Ctrl-f</code> 向下滚动一页。</li>
+<li><code>Ctrl-b</code> 向上滚动一页。</li>
+</ul></li>
+<li><strong>跳转到指定行</strong>：
+<ul>
+<li><code>:数字</code> 跳转到指定行，如 <code>:10</code> 跳到第10行。</li>
+<li><code>gg</code> 跳到文件开头。</li>
+<li><code>G</code> 跳到文件结尾。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="编辑"><strong>编辑</strong></h3>
+<ul>
+<li><strong>插入模式</strong>：
+<ul>
+<li><code>i</code> 在光标前插入。</li>
+<li><code>I</code> 在行首插入。</li>
+<li><code>a</code> 在光标后插入。</li>
+<li><code>A</code> 在行尾插入。</li>
+<li><code>o</code> 在当前行下方插入新行。</li>
+<li><code>O</code> 在当前行上方插入新行。</li>
+</ul></li>
+<li><strong>删除</strong>：
+<ul>
+<li><code>x</code> 删除当前字符。</li>
+<li><code>dd</code> 删除当前行。</li>
+<li><code>d$</code> 删除从光标到行尾。</li>
+<li><code>d^</code> 删除从光标到行首。</li>
+</ul></li>
+<li><strong>复制/粘贴</strong>：
+<ul>
+<li><code>yy</code> 复制当前行。</li>
+<li><code>p</code> 在光标后粘贴。</li>
+<li><code>P</code> 在光标前粘贴。</li>
+</ul></li>
+<li><strong>替换</strong>：
+<ul>
+<li><code>r</code> 替换当前字符。</li>
+<li><code>R</code> 进入替换模式。</li>
+</ul></li>
+<li><strong>撤销/重做</strong>：
+<ul>
+<li><code>u</code> 撤销上一步操作。</li>
+<li><code>Ctrl-r</code> 重做。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="搜索与替换"><strong>搜索与替换</strong></h3>
+<ul>
+<li><strong>搜索</strong>：
+<ul>
+<li><code>/关键字</code> 搜索关键字，按 <code>n</code> 跳到下一个，<code>N</code> 跳到上一个。</li>
+<li><code>?关键字</code> 向上搜索关键字，按 <code>n</code> 跳到下一个，<code>N</code> 跳到上一个。</li>
+</ul></li>
+<li><strong>替换</strong>：
+<ul>
+<li><code>:s/旧文本/新文本</code> 替换当前行的第一个匹配。</li>
+<li><code>:s/旧文本/新文本/g</code> 替换当前行的所有匹配。</li>
+<li><code>:%s/旧文本/新文本/g</code> 替换整个文件的所有匹配。</li>
+<li><code>:%s/旧文本/新文本/gc</code> 替换时逐一确认。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="多文件操作"><strong>多文件操作</strong></h3>
+<ul>
+<li><strong>打开多个文件</strong>：
+<ul>
+<li><code>vim file1 file2</code> 同时打开多个文件。</li>
+<li><code>:n</code> 切换到下一个文件。</li>
+<li><code>:prev</code> 切换到上一个文件。</li>
+<li><code>:q</code> 关闭当前文件。</li>
+</ul></li>
+<li><strong>分屏操作</strong>：
+<ul>
+<li><code>:split file</code> 水平分屏打开文件。</li>
+<li><code>:vsplit file</code> 垂直分屏打开文件。</li>
+<li><code>Ctrl-w w</code> 切换屏幕。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="宏与重复"><strong>宏与重复</strong></h3>
+<ul>
+<li><strong>录制宏</strong>：
+<ul>
+<li><code>q键名</code> 开始录制宏，如 <code>qa</code> 录制到寄存器 a。</li>
+<li>执行编辑操作。</li>
+<li><code>q</code> 停止录制。</li>
+<li><code>@键名</code> 执行宏。</li>
+</ul></li>
+<li><strong>重复操作</strong>：
+<ul>
+<li><code>.</code> 重复上一次普通模式的命令。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="配置"><strong>配置</strong></h3>
+<ul>
+<li><strong>设置选项</strong>：
+<ul>
+<li><code>:set nu</code> 显示行号。</li>
+<li><code>:set nonu</code> 取消显示行号。</li>
+<li><code>:set hlsearch</code> 高亮搜索结果。</li>
+<li><code>:set nohlsearch</code> 取消高亮。</li>
+<li><code>:set tabstop=4</code> 设置Tab宽度为4。</li>
+</ul></li>
+<li><strong>保存配置</strong>：
+<ul>
+<li>将配置写入 <code>~/.vimrc</code> 文件，以便每次启动 Vim 自动加载。</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="快捷键总结"><strong>快捷键总结</strong></h3>
+<ul>
+<li><code>ESC</code>：返回普通模式。</li>
+<li><code>:w</code> 保存，<code>:q</code> 退出。</li>
+<li><code>h/j/k/l</code>：光标移动。</li>
+<li><code>i</code> 进入插入模式。</li>
+<li><code>/</code> 搜索关键字。</li>
+<li><code>dd</code> 删除行，<code>yy</code> 复制行，<code>p</code> 粘贴。</li>
+<li><code>u</code> 撤销，<code>Ctrl-r</code> 重做。</li>
+</ul>
+<h2 id="bash">Bash</h2>
+<h3 id="script">Script</h3>
+<p>#!/bin/bash - sha-bang</p>
+<ul>
+<li>[ expr ] whitespace around the [] are necessary
+<ul>
+<li><p>-z true if string is empty</p></li>
+<li><p>-n true if string is not empty</p></li>
+<li><p>-e file True if file exists</p></li>
+<li><p>-d file True if file is a directory</p></li>
+<li><p>-f file True if file is a regular file</p></li>
+<li><p>-L file True if file is a symbolic link</p></li>
+<li><p>-r file True if file is readable by you</p></li>
+<li><p>-w file True if file is writable by you</p></li>
+<li><p>-x file True if file is executable by you</p></li>
+<li><p>-O file True if file is effectively owned by you</p></li>
+<li><p>f1 -nt f2 True if f1 is newer than f2</p></li>
+<li><p>f1 -ot f2 True if f1 is older than f2</p></li>
+<li><p>f1 -ef f2 True if f1 is a hard link to f2 (they are the same file)</p></li>
+<li><p>arithmetic test, using -lt -le -eq -ne -ge -gt</p></li>
+<li><p>logical operators:</p>
+<ul>
+<li>! expr: NOT</li>
+<li>exp1 -a exp2: AND</li>
+<li>exp1 -o exp2: OR</li>
+</ul></li>
+</ul></li>
+<li>[[ ]]
+<ul>
+<li>logical operators: ! &amp;&amp; ||</li>
+<li>==/!=: treat the right as a pattern</li>
+<li>=~: treat right as an extended regular expression</li>
+</ul></li>
+<li>(()) - let
+<ul>
+<li><p>treats values stored in parameters as intergers</p></li>
+<li><p>allows to evaluate relational experssions</p></li>
+<li><p>~ 按位取反（NOT） 对每一位取反，0 变为 1，1 变为 0</p></li>
+<li><p>&lt;&lt; 左移 将二进制位向左移动指定的位数，右侧补 0</p></li>
+<li><p>&gt;&gt; 右移 将二进制位向右移动指定的位数，左侧补 0 或符号位（取决于具体实现）</p></li>
+<li><p>^ 按位异或（XOR） 如果两个对应位不同，结果为 1，否则为 0</p></li>
+<li><p>&amp; 按位与（AND） 如果两个对应位都为 1，结果为 1，否则为 0</p></li>
+<li><div class="line-block">按位或（OR） 如果两个对应位有一个为 1，结果为 1，否则为 0</div></li>
+<li><p>interger literals</p>
+<ul>
+<li>dec: ddd</li>
+<li>oct: 0dd</li>
+<li>hex: 0xdd</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="control-structures">Control Structures</h3>
+<ul>
+<li><p>if tests; then cmds; fi</p></li>
+<li><p>if tests; then cmds; else cmds; fi</p></li>
+<li><p>if tests; then cmds; elif tests; then cmds; else cmds; fi</p></li>
+<li><p>while tests; do cmds; done</p></li>
+<li><p>for name in [list]; do cmds; done</p></li>
+<li><p>for (( i=0; i&lt;n; ++i )); do # c like loop</p></li>
+<li><p>break to exit, continue to skip</p></li>
+<li><p>case word in {pattern ) cmds ;;} esac</p></li>
+<li><p>select name in [list]; do cmds; done</p></li>
+<li><p>use read to preserve spaces</p></li>
+<li><p>for f in $(ls -1); do # if filename have spaces, it will not be preserve</p></li>
+<li><p>ls -1 | while read f; do # space will be preserve</p></li>
+<li><p>Brace Expansion: {x..y[..inc]}</p>
+<ul>
+<li>{5..13}</li>
+<li>{a..g}</li>
+<li>useful in for loop</li>
+</ul></li>
+</ul>
+<h3 id="arguments">Arguments</h3>
+<ul>
+<li><p>$0 is the name of the command</p></li>
+<li><p>$$: the PID of current shell</p></li>
+<li><p>$?: the return value of the last command</p></li>
+<li><p>$# The number of arguments</p></li>
+<li><p>$* All arguments</p></li>
+<li><p>$@ All arguments(individually quoted)</p></li>
+<li><p>${n} The nth positional argument</p></li>
+<li><p>shift [cnt]: default 1, shift args to the left cnt positions, $1 is gone, $2-&gt;$1</p></li>
+<li><p>getopts: getopts optstring name</p>
+<ul>
+<li><p>只支持短选项</p></li>
+<li><p>optstring开头添加:禁用错误输出</p></li>
+<li><p>选项后添加:表示需要参数</p></li>
+<li><p>按照命令行参数的顺序解析选项，非选项的参数会留在 $@ 中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">&quot;ab:cC&quot;</span> opt; <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">case</span> <span class="variable">$opt</span> <span class="keyword">in</span></span><br><span class="line">    a ) <span class="built_in">echo</span> <span class="string">&quot;option a, at index <span class="variable">$OPTIND</span>&quot;</span>;;</span><br><span class="line">    b ) <span class="built_in">echo</span> <span class="string">&quot;option b with arg = <span class="variable">$OPTARG</span>, at index <span class="variable">$OPTIND</span>&quot;</span>;;</span><br><span class="line">    c |C ) <span class="built_in">echo</span> <span class="string">&quot;option <span class="variable">$opt</span>,at index <span class="variable">$OPTIND</span>&quot;</span>;;</span><br><span class="line">    ? ) <span class="built_in">echo</span> <span class="string">&quot;usage:<span class="variable">$0</span>[-a] [b arg][-c]args...&quot;</span> ;<span class="built_in">exit</span> 1;;</span><br><span class="line">  <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;\$OPTIND = <span class="variable">$OPTIND</span>&quot;</span></span><br><span class="line"><span class="built_in">shift</span> $((<span class="variable">$OPTIND</span> - <span class="number">1</span>)) <span class="comment"># shift off the options</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\nHere are the remaining arguments:&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$@</span>&quot;</span> ; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">&quot;\t<span class="variable">$i</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></li>
+</ul></li>
+</ul>
+<h3 id="functions">Functions</h3>
+<ul>
+<li><p>function name {body}</p></li>
+<li><p>name () {body}</p></li>
+<li><p>export -f funcname to make it available to subshells</p></li>
+<li><p>like script, $1, $2, shift, $#, $*, $@ work the same</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> hello</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;hello <span class="variable">$1</span>&quot;</span></span><br><span class="line"><span class="keyword">if</span> [[ -n <span class="string">&quot;<span class="variable">$2</span>&quot;</span> &amp;&amp; <span class="string">&quot;<span class="variable">$2</span>&quot;</span>-gt 1 ]] ; <span class="keyword">then</span></span><br><span class="line">    hello <span class="variable">$1</span> $((<span class="variable">$2</span>-<span class="number">1</span>))</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ hello Vera 3</span><br><span class="line">&gt; helloVera</span><br><span class="line">&gt; helloVera</span><br><span class="line">&gt; helloVera</span><br></pre></td></tr></table></figure></p></li>
+<li><p>local Variables: local {var}</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> hello&#123;</span><br><span class="line"><span class="built_in">local</span> USER=’Elmer Fudd’</span><br><span class="line">FOO=’Hunting Wabbit’</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello, <span class="variable">$USER</span>, you are <span class="variable">$FOO</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ FOO=’Baking Cookies’</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$USER</span></span><br><span class="line">&gt; kschmidt</span><br><span class="line">$ hello</span><br><span class="line">&gt; Hello, Elmer Fudd, you are Hunting Wabbit</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$FOO</span></span><br><span class="line">&gt; Hunting Wabbit</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$USER</span></span><br><span class="line">&gt; kschmidt</span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<h3 id="parameter-expansion">Parameter Expansion</h3>
+<ul>
+<li>Unset or Null Parameters
+<ul>
+<li><p>${param :-word} Use word if param is not set or is null</p></li>
+<li><p>${param :=word} Use word if param is not set or is null, set it to word</p></li>
+<li><p>${param :?word} If param is not set or is null, print word to stderr, exit shell (if not interactive)</p></li>
+<li><p>${param :+word} If param is set, use word, otherwise use null</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">unset</span> foo</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:-&quot;Hello!&quot;&#125;</span></span><br><span class="line">&gt; Hello!</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$foo</span></span><br><span class="line">&gt; </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:?&quot;Houston, we have a problem&quot;&#125;</span></span><br><span class="line">&gt; bash: foo: Houston, we have a problem</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:+&quot;We here?&quot;&#125;</span></span><br><span class="line">&gt; </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:=’I am de Fault’&#125;</span></span><br><span class="line">&gt; I am de Fault</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$foo</span></span><br><span class="line">&gt; I amde Fault</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:?&quot;Houston, we have a problem&quot;&#125;</span></span><br><span class="line">&gt; I amde Fault</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;foo:+&quot;We here?&quot;&#125;</span></span><br><span class="line">&gt; Wehere?</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+<li>Removing Patterns
+<ul>
+<li><p>${param#pattern} Remove shortest leading pattern</p></li>
+<li><p>${param##pattern} Remove longest leading pattern</p></li>
+<li><p>${param%pattern} Remove shortest trailing pattern</p></li>
+<li><p>${param%%pattern} Remove longest trailing pattern</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ f=a^b^c</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f#*^&#125;</span></span><br><span class="line">&gt; b^c</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f##*^&#125;</span></span><br><span class="line">&gt; c</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f%%^*&#125;</span></span><br><span class="line">&gt; a</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f%^*&#125;</span></span><br><span class="line">&gt; a^b</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+<li>Pattern Substitution
+<ul>
+<li><p>${param/pattern/string} replace first match</p></li>
+<li><p>${param//pattern/string} replace all match</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ f=<span class="string">&quot;The cat sat on the hat&quot;</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f/[hcs]at/XXX&#125;</span></span><br><span class="line">&gt; The XXX sat on the hat</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f//[hcs]at/XXX&#125;</span></span><br><span class="line">&gt; The XXX XXX on the XXX</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+<li>Substrings
+<ul>
+<li><p>${param:offset}</p></li>
+<li><p>${param:offset:length}</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ n=’Kurt Schmidt’</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;n:3&#125;</span></span><br><span class="line">&gt; t Schmidt</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;n:5:3&#125;</span></span><br><span class="line">&gt; Sch</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+<li>Change Case
+<ul>
+<li><p>${param<OP>pattern} <code>^</code> covert ot upper, <code>,</code> convert to lower</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ f=SHOUT</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f,&#125;</span> <span class="comment"># If pattern is missing, treated as a ?</span></span><br><span class="line">&gt; sHOUT</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f,,&#125;</span> <span class="comment"># , for first, ,, for each</span></span><br><span class="line">&gt; shout</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f,[SOT]&#125;</span></span><br><span class="line">&gt; sHOUT</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f,,[SOT]&#125;</span></span><br><span class="line">&gt; sHoUt</span><br><span class="line">$ f=quiet</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;f^^&#125;</span> <span class="comment"># ^ for first, ^^ for each</span></span><br><span class="line">&gt; QUIET</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+</ul>
+<h3 id="awk">AWK</h3>
+<ul>
+<li>awk '{print $3}' input.txt</li>
+<li>awk -f script.awk input.txt</li>
+<li>#!/usr/bin/awk -f</li>
+</ul>
+<h4 id="form-of-a-awk-program">form of a AWK program</h4>
+<p>pattern {action}</p>
+<ul>
+<li>pattern – Text.Numeric or string relational operator, or regular expression match
+<ul>
+<li>If empty, actions are applied to every record</li>
+</ul></li>
+<li>action – Statement or sequence of statements
+<ul>
+<li>If empty, default action is to print the entire line</li>
+</ul></li>
+</ul>
+<h4 id="patterns">patterns</h4>
+<ul>
+<li><p>Any numeric or string relational operator</p></li>
+<li><p>Logical operators (&amp;&amp;, ||, !)</p></li>
+<li><p>regular expression (delimited by / /)</p></li>
+<li><p>special patterns:</p>
+<ul>
+<li>BEGIN: True before first record is parsed</li>
+<li>END: True after last record is parsed</li>
+</ul></li>
+<li><p>Empty test applies to every record</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;BEGIN &#123; print &quot;Processing starts...&quot; &#125;</span></span><br><span class="line"><span class="string">    &#123; print &quot;Line:&quot;, $0 &#125;</span></span><br><span class="line"><span class="string">    END &#123; print &quot;Processing ends.&quot; &#125;&#x27;</span> file.txt</span><br></pre></td></tr></table></figure></li>
+<li><p>describe a range</p>
+<ul>
+<li><code>NR==8, NR==165</code>, print lines 8 through 165, inclusive</li>
+<li><code>/&lt;body&gt;/, /&lt;\/body&gt;/</code>, print first line with
+<body>
+and every line until next
+</body></li>
+</ul></li>
+</ul>
+<h4 id="actions">actions</h4>
+<ul>
+<li>default action is to print entire record ($0)</li>
+</ul>
+<h4 id="language">language</h4>
+<p>C-like syntax</p>
+<ul>
+<li>fields: default split over whitespace, identified by $1, $2 ... $NF. $0 is the entire line</li>
+<li>variable: dynamic typing. There are some built-in var:
+<ul>
+<li>NF: Number of fields in current record</li>
+<li>NR: Number of records read (so far)</li>
+<li>FNR: Number of records read in this file (the line #)</li>
+<li>FS: Input field separator</li>
+<li>OFS: Output field separator</li>
+<li>RS: Input record separator</li>
+<li>ORS: Output record separator</li>
+</ul></li>
+</ul>
+<h4 id="string-concatenation">String Concatenation</h4>
+<p>simply juxtaposition, parantgeses will be helpful</p>
+<ul>
+<li><code>$ awk ’BEGIN&#123;print -12 " " (-24) &#125;’</code></li>
+<li><code>print "And I’m spinning..." &gt; (a b)</code></li>
+</ul>
+<h4 id="string-functions">String Functions</h4>
+<ul>
+<li><p>length</p></li>
+<li><p>tolower</p></li>
+<li><p>toupper</p></li>
+<li><p>index: 返回子串第一次出现的索引</p></li>
+<li><p>substr: 返回子串</p></li>
+<li><p>sub: 替换第一个匹配的部分</p></li>
+<li><p>gsub: 替换所有</p></li>
+<li><p>gensub: 替换的n个匹配部分</p></li>
+<li><p>split: 根据正则分割字符串成数组</p></li>
+<li><p>patsplit: 将匹配成功的部分放入数组</p></li>
+<li><p>sprintf: 返回格式化的字符串，类似printf</p></li>
+<li><p>strtonum: 从字符串中提取数值</p></li>
+</ul>
+<h4 id="arrays">Arrays</h4>
+<ul>
+<li><p>All arrays are associative (dictionary in fact)</p></li>
+<li><p>key can be num or str</p></li>
+<li><p>vectors can be sparse</p></li>
+<li><p>indices can be negative</p></li>
+<li><p>delete: delete a[2]</p></li>
+<li><p>awk support multidimensional arrays: a[i, j] = i*j</p></li>
+<li><p>sorting array (Gawk)</p>
+<ul>
+<li>asort - sort the value <code>asort(array [, dest])</code></li>
+<li>asorti - sort the key <code>asorti(array [, dest])</code></li>
+</ul></li>
+<li><p>numeric sorting: <code>PROCINFO["sorted_in"] = val_num_asc</code></p></li>
+</ul>
+<h4 id="function">Function</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> func_name([param_list])</span><br><span class="line">&#123;</span><br><span class="line">    body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="awk-one-liners">AWK One-Liners</h4>
+<ul>
+<li>line count: <code>awk 'END &#123;print NR&#125;'</code></li>
+<li>like grep: <code>awk '/regex/'</code></li>
+<li>like head: <code>awk 'FNR&lt;=10'</code></li>
+<li>add line numbers: <code>awk '&#123;print FNR, $0&#125;'</code> or <code>awk '&#123;printf("%03d %s\n", FNR, $0)&#125;'</code></li>
+<li>print line 12-23, inclusive: <code>awk 'FNR==12, FNR==23'</code></li>
+<li>remove black lines: <code>awk 'NF&gt;0'</code></li>
+<li>double-space a file: <code>awk '1; &#123;print "&#125;'</code></li>
+<li>smarter double-space: <code>awk 'NF&gt;0 &#123;print $0 "\n"&#125;'</code></li>
+<li>remove leading whitespace from each line: <code>awk '&#123;sub(/^[ \t]+$/, ")&#125;; 1'</code></li>
+</ul>
+<h3 id="regular-expressions">Regular Expressions</h3>
+<p>egrep regex files (awk)</p>
+<h4 id="syntax">Syntax</h4>
+<ul>
+<li>primitive operation
+<ul>
+<li>c: any literal char</li>
+<li>r*: 0 or more</li>
+<li>r1r2: concatenation</li>
+<li>r1|r2: r1 or r2</li>
+<li>(r): grouping</li>
+</ul></li>
+<li>sugar
+<ul>
+<li>. match any single char</li>
+<li>? 0/1</li>
+<li><ul>
+<li>1 or more</li>
+</ul></li>
+<li>[...] match any single chars in the brackets</li>
+<li>[^...] inverted</li>
+<li>^ beginning of line</li>
+<li>$ end of line</li>
+<li>&lt; &gt; word anchors</li>
+</ul></li>
+<li>nickname
+<ul>
+<li> numeric digit</li>
+<li>word char, num or _</li>
+<li>whitespace</li>
+</ul></li>
+</ul>
+
+    </article>
+    <!-- license -->
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/03/27/Welcome/" title="Welcome">
+                    <div class="prevTitle">Welcome</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:ashf293@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/wechat_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="https://steamcommunity.com/profiles/76561198983572036/" class="iconfont-archer steam" target="_blank" title=steam></a>
+            
+        
+    
+        
+            
+                <a href="https://space.bilibili.com/343367080" class="iconfont-archer bilibili" target="_blank" title=bilibili></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%BC%80%E5%A4%B4"><span class="toc-number">1.</span> <span class="toc-text">写在开头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unix"><span class="toc-number">2.</span> <span class="toc-text">Unix</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#command"><span class="toc-number">2.1.</span> <span class="toc-text">Command</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#options"><span class="toc-number">2.1.1.</span> <span class="toc-text">options</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ls"><span class="toc-number">2.1.2.</span> <span class="toc-text">ls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#man"><span class="toc-number">2.1.3.</span> <span class="toc-text">man</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#info"><span class="toc-number">2.1.4.</span> <span class="toc-text">info</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cat"><span class="toc-number">2.1.5.</span> <span class="toc-text">cat</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#less-more"><span class="toc-number">2.1.6.</span> <span class="toc-text">less more</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#od"><span class="toc-number">2.1.7.</span> <span class="toc-text">od</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cpmv"><span class="toc-number">2.1.8.</span> <span class="toc-text">cp&#x2F;mv</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tar"><span class="toc-number">2.1.9.</span> <span class="toc-text">tar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#filters"><span class="toc-number">2.1.10.</span> <span class="toc-text">filters</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#du--sh"><span class="toc-number">2.1.10.1.</span> <span class="toc-text">du -sh</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#permissions"><span class="toc-number">2.1.11.</span> <span class="toc-text">permissions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#basic-vim"><span class="toc-number">2.1.12.</span> <span class="toc-text">Basic Vim</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shell"><span class="toc-number">2.2.</span> <span class="toc-text">Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#io"><span class="toc-number">2.2.1.</span> <span class="toc-text">IO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#variables"><span class="toc-number">2.2.2.</span> <span class="toc-text">Variables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#process-jobs"><span class="toc-number">2.2.3.</span> <span class="toc-text">Process &amp; Jobs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#command-sequence"><span class="toc-number">2.2.4.</span> <span class="toc-text">Command Sequence</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#conditional-operators"><span class="toc-number">2.2.5.</span> <span class="toc-text">Conditional Operators</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vim"><span class="toc-number">3.</span> <span class="toc-text">Vim</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vim-%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">Vim 的三种模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">3.2.</span> <span class="toc-text">基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%92%8C%E9%80%80%E5%87%BA"><span class="toc-number">3.2.1.</span> <span class="toc-text">启动和退出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA"><span class="toc-number">3.3.</span> <span class="toc-text">导航</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91"><span class="toc-number">3.4.</span> <span class="toc-text">编辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E4%B8%8E%E6%9B%BF%E6%8D%A2"><span class="toc-number">3.5.</span> <span class="toc-text">搜索与替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">3.6.</span> <span class="toc-text">多文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8F%E4%B8%8E%E9%87%8D%E5%A4%8D"><span class="toc-number">3.7.</span> <span class="toc-text">宏与重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">3.8.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%80%BB%E7%BB%93"><span class="toc-number">3.9.</span> <span class="toc-text">快捷键总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bash"><span class="toc-number">4.</span> <span class="toc-text">Bash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#script"><span class="toc-number">4.1.</span> <span class="toc-text">Script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#control-structures"><span class="toc-number">4.2.</span> <span class="toc-text">Control Structures</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#arguments"><span class="toc-number">4.3.</span> <span class="toc-text">Arguments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#functions"><span class="toc-number">4.4.</span> <span class="toc-text">Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#parameter-expansion"><span class="toc-number">4.5.</span> <span class="toc-text">Parameter Expansion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#awk"><span class="toc-number">4.6.</span> <span class="toc-text">AWK</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#form-of-a-awk-program"><span class="toc-number">4.6.1.</span> <span class="toc-text">form of a AWK program</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#patterns"><span class="toc-number">4.6.2.</span> <span class="toc-text">patterns</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#actions"><span class="toc-number">4.6.3.</span> <span class="toc-text">actions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#language"><span class="toc-number">4.6.4.</span> <span class="toc-text">language</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#string-concatenation"><span class="toc-number">4.6.5.</span> <span class="toc-text">String Concatenation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#string-functions"><span class="toc-number">4.6.6.</span> <span class="toc-text">String Functions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#arrays"><span class="toc-number">4.6.7.</span> <span class="toc-text">Arrays</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#function"><span class="toc-number">4.6.8.</span> <span class="toc-text">Function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk-one-liners"><span class="toc-number">4.6.9.</span> <span class="toc-text">AWK One-Liners</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#regular-expressions"><span class="toc-number">4.7.</span> <span class="toc-text">Regular Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#syntax"><span class="toc-number">4.7.1.</span> <span class="toc-text">Syntax</span></a></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 4
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/12</span>
+            <a class="archive-post-title" href="/2024/12/12/Linux/">Linux备忘</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/Basic-Blender/">Basic Blender</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/Welcome/">Welcome</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/English-Grammar/">English Grammar</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="blender">
+                <span class="iconfont-archer">&#xe606;</span>
+                blender
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="note">
+                <span class="iconfont-archer">&#xe606;</span>
+                note
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="English">
+                <span class="iconfont-archer">&#xe606;</span>
+                English
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Linux">
+                <span class="iconfont-archer">&#xe606;</span>
+                Linux
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="learning notes">
+            <span class="iconfont-archer">&#xe60a;</span>
+            learning notes
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="blender">
+            <span class="iconfont-archer">&#xe60a;</span>
+            blender
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="english">
+            <span class="iconfont-archer">&#xe60a;</span>
+            english
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="linux">
+            <span class="iconfont-archer">&#xe60a;</span>
+            linux
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://example.com",
+        root: siteMetaRoot,
+        author: "John Doe"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    </body>
+</html>
